@@ -49,10 +49,14 @@ const App = () => {
   const validateForm = () => {
     const currentStep = steps[step];
     const currentFormData = formData[currentStep.title.toLowerCase()];
-
+  
     // Check if all required fields are filled
-    return currentStep.fields.every((field) => currentFormData[field].trim() !== '');
+    return (
+      currentFormData &&
+      currentStep.fields.every((field) => currentFormData[field] !== undefined && currentFormData[field].trim() !== '')
+    );
   };
+  
 
   const handleChange = (e, section) => {
     setFormData({
@@ -99,7 +103,7 @@ const App = () => {
             type="text"
             name={field}
             placeholder={field}
-            value={formDataForStep[field] !== undefined ? formDataForStep[field] : ''}
+            value={formDataForStep && formDataForStep[field] !== undefined ? formDataForStep[field] : ''}
             onChange={(e) => handleChange(e, currentStep.title.toLowerCase())}
             required
           />
